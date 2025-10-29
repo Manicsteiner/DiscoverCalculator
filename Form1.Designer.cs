@@ -123,7 +123,7 @@
             this.numericUpDown2.Location = new System.Drawing.Point(340, 37);
             this.numericUpDown2.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown2.Maximum = new decimal(new int[] {
-            1,
+            3,
             0,
             0,
             0});
