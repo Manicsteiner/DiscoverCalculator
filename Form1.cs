@@ -15,6 +15,7 @@ namespace DiscoverCalculator
         public Form1()
         {
             InitializeComponent();
+            radioButton1.Checked = true;
         }
 
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -28,7 +29,52 @@ namespace DiscoverCalculator
             long x = (long)numericUpDown1.Value;
             long y = (long)numericUpDown2.Value;
             long z = (long)numericUpDown3.Value;
-            label4.Text = $"概率为: {Calculator.CalculateProbability(x, y, z) * 100:F2}%";
+            int t = (int)numericUpDown4.Value;
+            double probability;
+            if (radioButton1.Checked)
+            {
+                probability = Calculator.ProbabilityDiscover(x, y, z);
+            }
+            else if (radioButton2.Checked)
+            {
+                probability = Calculator.ProbabilityRandomAny(x, y, z);
+            }
+            else if (radioButton3.Checked)
+            {
+                probability = Calculator.ProbabilityRandomAll(x, y, z);
+            }
+            else
+            {
+                probability = 0;
+            }
+
+            if (checkBox1.Checked)
+            {
+                probability = Calculator.ProbabilityRewind(probability, t);
+            }
+
+            label4.Text = $"概率为: {probability * 100:F2}%";
+        }
+
+        private void RadioButton_ValueChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                label3.Text = "共      个选项";
+            }
+            else
+            {
+                label3.Text = "共      次";
+            }
+            
+            NumericUpDown_ValueChanged(sender, e);
+        }
+
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            numericUpDown4.Visible = checkBox1.Checked;
+            label5.Visible = checkBox1.Checked;
+            NumericUpDown_ValueChanged(sender, e);
         }
     }
     class Calculator
@@ -51,12 +97,13 @@ namespace DiscoverCalculator
         }
 
         // 计算至少抽到一张有效卡的概率
-        public static double CalculateProbability(long x, long y, long z)
+        public static double ProbabilityDiscover(long x, long y, long z)
         {
             if (y > x)
             {
                 return Double.NaN;
             }
+
             if (z > x)
             {
                 return 1;
@@ -73,14 +120,43 @@ namespace DiscoverCalculator
             return probability;
         }
 
-        //static void Main()
-        //{
-        //    int x = 50; // 总卡数
-        //    int y = 10; // 有效卡数
-        //    int z = 5;  // 抽取的次数
+        public static double ProbabilityRandomAny(long x, long y, long z)
+        {
+            if (y > x)
+            {
+                return Double.NaN;
+            }
 
-        //    double probability = CalculateProbability(x, y, z);
-        //    Console.WriteLine($"抽到至少一张有效卡的概率是: {probability * 100:F2}%");
-        //}
+            long totalWays = Combination(x, 1);
+
+            long invalidWays = Combination(x - y, 1);
+
+            double invalidProbablity = (double)invalidWays / totalWays;
+
+            double probability = 1.0 - Math.Pow(invalidProbablity, z);
+            return probability;
+        }
+
+        public static double ProbabilityRandomAll(long x, long y, long z)
+        {
+            if (y > x)
+            {
+                return Double.NaN;
+            }
+
+            long totalWays = Combination(x, 1);
+
+            long invalidWays = Combination(x - y, 1);
+
+            double validProbablity = 1.0 - (double)invalidWays / totalWays;
+
+            double probability = Math.Pow(validProbablity, z);
+            return probability;
+        }
+
+        public static double ProbabilityRewind(double probability, int times)
+        {
+            return 1.0 - Math.Pow((1.0 - probability), times + 1);
+        }
     }
 }
