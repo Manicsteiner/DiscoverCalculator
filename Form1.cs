@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace DiscoverCalculator
 {
@@ -18,30 +20,26 @@ namespace DiscoverCalculator
             radioButton1.Checked = true;
         }
 
-        private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-            numericUpDown2.Maximum = numericUpDown1.Value;
-            NumericUpDown_ValueChanged(sender, e);
-        }
-
         private void NumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            long x = (long)numericUpDown1.Value;
-            long y = (long)numericUpDown2.Value;
-            long z = (long)numericUpDown3.Value;
-            int t = (int)numericUpDown4.Value;
+            int x = (int)numericUpDown1.Value;
+            int y = (int)numericUpDown2.Value;
+            int z = (int)numericUpDown3.Value;
+            int n = (int)numericUpDown4.Value;
             double probability;
+            int total = x + y + z;
+
             if (radioButton1.Checked)
             {
-                probability = Calculator.ProbabilityDiscover(x, y, z);
+                probability = Calculator.ProbabilityRandomAny(x, n, total);
             }
             else if (radioButton2.Checked)
             {
-                probability = Calculator.ProbabilityRandomAny(x, y, z);
+                probability = Calculator.ProbabilityRandomAny(y, n, total);
             }
             else if (radioButton3.Checked)
             {
-                probability = Calculator.ProbabilityRandomAll(x, y, z);
+                probability = Calculator.ProbabilityRandomAny(z, n, total);
             }
             else
             {
@@ -50,7 +48,7 @@ namespace DiscoverCalculator
 
             if (checkBox1.Checked)
             {
-                probability = Calculator.ProbabilityRewind(probability, t);
+                probability = Calculator.ProbabilityRewind(probability, 1);
             }
 
             label4.Text = $"概率为: {probability * 100:F2}%";
@@ -58,25 +56,10 @@ namespace DiscoverCalculator
 
         private void RadioButton_ValueChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
-            {
-                label3.Text = "共      个选项";
-            }
-            else
-            {
-                label3.Text = "共      次";
-            }
-            
-            NumericUpDown_ValueChanged(sender, e);
-        }
-
-        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            numericUpDown4.Visible = checkBox1.Checked;
-            label5.Visible = checkBox1.Checked;
             NumericUpDown_ValueChanged(sender, e);
         }
     }
+
     class Calculator
     {
         // 计算组合数 C(n, k) = n! / (k! * (n-k)!)
@@ -96,62 +79,23 @@ namespace DiscoverCalculator
             return result;
         }
 
-        // 计算至少抽到一张有效卡的概率
-        public static double ProbabilityDiscover(long x, long y, long z)
+        public static double ProbabilityRandomAny(long x, long need, long total)
         {
-            if (y > x)
+            long totalWays = Combination(total, 3);
+
+            long validWays = 0;
+
+            for (long count = need; count <= Math.Min(3, x); count++)
             {
-                return Double.NaN;
+                long remaining = 3 - count;
+                if (remaining <= (total - x))
+                {
+                    // 计算剩余的组合
+                    validWays += Combination(x, count) * Combination(total - x, remaining);
+                }
             }
 
-            if (z > x)
-            {
-                return 1;
-            }
-
-            // 计算所有可能的组合
-            long totalWays = Combination(x, z);
-
-            // 计算抽不到有效卡的组合（即抽到的卡都是无效卡）
-            long invalidWays = Combination(x - y, z);
-
-            // 计算至少抽到一张有效卡的概率
-            double probability = 1.0 - (double)invalidWays / totalWays;
-            return probability;
-        }
-
-        public static double ProbabilityRandomAny(long x, long y, long z)
-        {
-            if (y > x)
-            {
-                return Double.NaN;
-            }
-
-            long totalWays = Combination(x, 1);
-
-            long invalidWays = Combination(x - y, 1);
-
-            double invalidProbablity = (double)invalidWays / totalWays;
-
-            double probability = 1.0 - Math.Pow(invalidProbablity, z);
-            return probability;
-        }
-
-        public static double ProbabilityRandomAll(long x, long y, long z)
-        {
-            if (y > x)
-            {
-                return Double.NaN;
-            }
-
-            long totalWays = Combination(x, 1);
-
-            long invalidWays = Combination(x - y, 1);
-
-            double validProbablity = 1.0 - (double)invalidWays / totalWays;
-
-            double probability = Math.Pow(validProbablity, z);
-            return probability;
+            return (double)validWays / totalWays;
         }
 
         public static double ProbabilityRewind(double probability, int times)
