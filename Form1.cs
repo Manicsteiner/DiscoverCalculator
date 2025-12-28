@@ -26,20 +26,21 @@ namespace DiscoverCalculator
             int y = (int)numericUpDown2.Value;
             int z = (int)numericUpDown3.Value;
             int n = (int)numericUpDown4.Value;
+            int target = (int)numericUpDown5.Value;
             double probability;
             int total = x + y + z;
 
             if (radioButton1.Checked)
             {
-                probability = Calculator.ProbabilityRandomAny(x, n, total);
+                probability = Calculator.ProbabilityRandom(x, n, total, target);
             }
             else if (radioButton2.Checked)
             {
-                probability = Calculator.ProbabilityRandomAny(y, n, total);
+                probability = Calculator.ProbabilityRandom(y, n, total, target);
             }
             else if (radioButton3.Checked)
             {
-                probability = Calculator.ProbabilityRandomAny(z, n, total);
+                probability = Calculator.ProbabilityRandom(z, n, total, target);
             }
             else
             {
@@ -79,15 +80,15 @@ namespace DiscoverCalculator
             return result;
         }
 
-        public static double ProbabilityRandomAny(long x, long need, long total)
+        public static double ProbabilityRandom(long x, long need, long total, int target)
         {
-            long totalWays = Combination(total, 3);
+            long totalWays = Combination(total, target);
 
             long validWays = 0;
 
-            for (long count = need; count <= Math.Min(3, x); count++)
+            for (long count = need; count <= Math.Min(target, x); count++)
             {
-                long remaining = 3 - count;
+                long remaining = target - count;
                 if (remaining <= (total - x))
                 {
                     // 计算剩余的组合

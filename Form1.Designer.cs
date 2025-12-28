@@ -38,10 +38,12 @@
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             this.SuspendLayout();
             // 
             // label4
@@ -66,6 +68,11 @@
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(70, 39);
             this.numericUpDown1.TabIndex = 7;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.numericUpDown1.ValueChanged += new System.EventHandler(this.NumericUpDown_ValueChanged);
             // 
             // numericUpDown2
@@ -81,7 +88,7 @@
             this.numericUpDown2.Size = new System.Drawing.Size(66, 39);
             this.numericUpDown2.TabIndex = 9;
             this.numericUpDown2.Value = new decimal(new int[] {
-            10,
+            8,
             0,
             0,
             0});
@@ -143,7 +150,7 @@
             // numericUpDown4
             // 
             this.numericUpDown4.Font = new System.Drawing.Font("宋体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numericUpDown4.Location = new System.Drawing.Point(121, 160);
+            this.numericUpDown4.Location = new System.Drawing.Point(221, 158);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             3,
             0,
@@ -155,7 +162,7 @@
             0,
             0});
             this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(71, 39);
+            this.numericUpDown4.Size = new System.Drawing.Size(60, 39);
             this.numericUpDown4.TabIndex = 14;
             this.numericUpDown4.Value = new decimal(new int[] {
             1,
@@ -168,17 +175,17 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(53, 162);
+            this.label1.Location = new System.Drawing.Point(29, 160);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(208, 28);
+            this.label1.Size = new System.Drawing.Size(292, 28);
             this.label1.TabIndex = 15;
-            this.label1.Text = "需要        个";
+            this.label1.Text = "掷     枚需要     个";
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Font = new System.Drawing.Font("宋体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.checkBox1.Location = new System.Drawing.Point(312, 162);
+            this.checkBox1.Location = new System.Drawing.Point(326, 160);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(150, 32);
             this.checkBox1.TabIndex = 16;
@@ -186,11 +193,41 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.RadioButton_ValueChanged);
             // 
+            // numericUpDown5
+            // 
+            this.numericUpDown5.Font = new System.Drawing.Font("宋体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.numericUpDown5.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Location = new System.Drawing.Point(65, 158);
+            this.numericUpDown5.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Name = "numericUpDown5";
+            this.numericUpDown5.Size = new System.Drawing.Size(56, 39);
+            this.numericUpDown5.TabIndex = 17;
+            this.numericUpDown5.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numericUpDown5.ValueChanged += new System.EventHandler(this.NumericUpDown_ValueChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(546, 353);
+            this.Controls.Add(this.numericUpDown5);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.numericUpDown4);
             this.Controls.Add(this.radioButton3);
@@ -208,6 +245,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,6 +262,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDown4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.NumericUpDown numericUpDown5;
     }
 }
 
